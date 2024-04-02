@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Result Page</h1>
+<!--    타임리프를 이용하여 모델에 담긴 데이터, 객체를 꺼내 쓸 수 있다.-->
+<!--    Dto같은 객체는 getter를 이용하여 데이터를 꺼내 쓴다.-->
+    <h3 th:text="${memberDto.getAge()}"></h3>
+    <h3 th:text="${memberDto.getLoginId()}"></h3>
+<!--    getter 대신 필드명을 사용하면 타임리프가 내부적으로 getter를 사용하여 데이터를 가져온다.-->
+    <h3 th:text="${memberDto.password}"></h3>
+    <h3 th:text="${memberDto.name}"></h3>
+
+<!--    부모태그에 th:object로 특정 객체를 등록하면-->
+<!--    자식태그에서 *{}로 등록된 객체를 참조하여 특정 필드에 접근할 수 있다.-->
+    <div th:object="${memberDto}">
+        <h3 th:text="*{loginId}"></h3>
+        <h3 th:text="*{password}"></h3>
+        <h3 th:text="*{name}"></h3>
+        <h3 th:text="*{age}"></h3>
+    </div>
+
+    <div>
+        <span th:text="${memberDto.name}"></span>
+        <span>님의 나이는</span>
+        <span th:text="${memberDto.age}"></span>
+        <span>살 입니다.</span>
+    </div>
+
+    <div th:text="${memberDto.name} + '님의 나이는' + ${memberDto.age} + '살 입니다.'"></div>
+
+</body>
+</html>
