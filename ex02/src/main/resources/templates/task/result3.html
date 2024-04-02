@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:object="${studentDto}">
+    이름 : <span th:text="*{name}"></span> <br>
+    수학 점수 : <span th:text="*{math}"></span> <br>
+    영어 점수 : <span th:text="*{eng}"></span> <br>
+    국어 점수 : <span th:text="*{kor}"></span> <br>
+        총점 : <span th:text="*{math+eng+kor}"></span> <br>
+        평균 : <span th:text="*{(math+eng+kor)/3}"></span>
+    </div>
+</body>
+</html>
