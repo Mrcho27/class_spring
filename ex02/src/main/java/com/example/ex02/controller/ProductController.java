@@ -17,10 +17,12 @@ public class ProductController {
     }
 
     @PostMapping("/product")
-    public String product(ProductDto productDto, Model model){
-        System.out.println("productDto = " + productDto);
-        model.addAttribute("productDto", productDto);
+    public void product(String productName,String brand,int price, Model model){
+        System.out.println("productName = " + productName + ", brand = " + brand + ", price = " + price);
+        model.addAttribute("productName",productName);
+        model.addAttribute("brand",brand);
+        model.addAttribute("price", price);
 
-        return "task/result2";
     }
+
 }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Ex02 Page</h1>
+
+<!--    타임리프의 if문-->
+<!--    조건이 true면 해당요소를 만들어주고 false면 생략한다.-->
+    <h1 th:if="${role == 'member'}">일반회원</h1>
+    <h1 th:if="${role == 'admin'}">관리자</h1>
+
+<!--    unless는 조건이 거짓일 때 해당요소를 생성한다.-->
+<!--    if와 함께 사용하면 같은 조건일 때 else문을 담당한다.-->
+    <h1 th:if="${role == 'member'}">일반회원</h1>
+    <h1 th:unless="${role == 'member'}">관리자</h1>
+
+<!--    타임리프에서 조건식은 자바의 관계연산자와 동일하게 사용 가능하다.-->
+    <h1 th:if="${number != 10}">number != 10</h1>
+    <h1 th:if="${number <= 10}">number <= 10</h1>
+
+<!--    null 체크도 가능하다 -->
+    <h1 th:if="${data == null}"> data == null</h1>
+<!--    빈 문자열 체크도 가능하다.-->
+    <h1 th:if="${data == ''}"> data == '' </h1>
+
+<!--    타임리프에서 기본제공되는 객체들이 있다.-->
+<!--    기본 제공 객체는 #으로 시작한다.-->
+<!--    isEmpty()는 null과 빈 문자열을 동시에 체크해준다.-->
+    <h1 th:if="${#strings.isEmpty(data)}">#strings.isEmpty(data)</h1>
+
+<!--    타임리프의 논리연산자는 and와 or를 사용한다.-->
+    <h1 th:if="${number > 5 and number < 20}">number > 5 and number < 20</h1>
+    <h1 th:if="${number == 10 or number != null}"> number == 10 or number != null</h1>
+    <h1 th:if="${not (number > 100)}">not (number > 100)</h1>
+</body>
+</html>

@@ -8,4 +8,14 @@ public class StudentDto {
     private int math;
     private int eng;
     private int kor;
+
+//    public int getTotal(){
+//        return math + eng + kor;
+//    }
+//
+//    public double getAvg(){
+//        return getTotal()/3.0;
+//    }
 }
+
+

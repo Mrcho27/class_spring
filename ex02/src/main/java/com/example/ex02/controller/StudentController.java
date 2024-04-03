@@ -21,4 +21,17 @@ public class StudentController {
         return "task/result3";
     }
 
+//    @PostMapping("/student")
+//    public String student(StudentDto studentDto, Model model){
+//        System.out.println("studentDto = " + studentDto);
+//        int total = studentDto.getEng() + studentDto.getKor() + studentDto.getMath();
+//        double avg = total / 3.0;
+//
+//        model.addAttribute("studentDto", studentDto);
+//        model.addAttribute("total", total);
+//        model.addAttribute("avg", avg);
+//        return "task/result2";
+//    }
+
+
 }

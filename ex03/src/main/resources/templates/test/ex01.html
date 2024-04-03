@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Ex01 Page</h1>
+<!--    타임리프의 반복문 (자바의 빠른 for문과 유사)-->
+    <div th:each="i : ${list}">
+        <span th:text="${i}"></span>
+    </div>
+
+    <div th:each="i : ${list}" th:text="${i}"></div>
+
+</body>
+</html>
