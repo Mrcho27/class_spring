@@ -18,7 +18,7 @@ public class ZooKeeper {
     public ZooKeeper(@Qualifier("tiger") Animal animal) {
         this.animal = animal;
     }
-
+    
     public void whipping(){
         System.out.println("찰싹");
         animal.crying();
