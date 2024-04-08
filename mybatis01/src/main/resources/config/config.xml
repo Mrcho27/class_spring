@@ -4,5 +4,8 @@
 <configuration>
     <typeAliases>
         <typeAlias type="com.example.mybatis01.dto.MemberDto" alias="memberDto"/>
+        <typeAlias type="com.example.mybatis01.dto.BoardDto" alias="boardDto"/>
+        <typeAlias type="com.example.mybatis01.dto.CommentDto" alias="commentDto"/>
+
     </typeAliases>
 </configuration>

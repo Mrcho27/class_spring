@@ -1,0 +1,21 @@
+table{
+    border-spacing: 0;
+    border: 1px solid black;
+    width: 500px;
+    margin: 0 auto;
+}
+th{
+    border-bottom: 3px solid #d0cfcf;
+
+}
+
+td{
+    border-bottom: 1px solid #d0cfcf;
+    text-align: center;
+}
+
+.search{
+    width: 500px;
+    margin: 20px auto;
+    text-align: right;
+}
