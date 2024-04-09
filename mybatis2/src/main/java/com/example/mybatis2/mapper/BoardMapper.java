@@ -2,6 +2,7 @@ package com.example.mybatis2.mapper;
 
 
 import com.example.mybatis2.dto.BoardDto;
+import com.example.mybatis2.dto.SearchDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -15,5 +16,7 @@ public interface BoardMapper {
     void updateBoard(BoardDto boardDto);
 
     void deleteBoard(Long boardId);
+
+    List<BoardDto> selectByKeyword(SearchDto searchDto);
 }
 

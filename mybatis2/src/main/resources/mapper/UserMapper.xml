@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mybatis2.mapper.UserMapper">
+    <select id="selectByKeyword" parameterType="map" resultType="userDto">
+        SELECT USER_ID, LOGIN_ID, PASSWORD, NAME, GENDER
+        FROM TBL_USER
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <choose>
+                <when test="'userId'.equals(searchDto.cate)">
+                    USER_ID = #{searchDto.keyword}
+                </when>
+                <when test="'name'.equals(searchDto.cate)">
+                    NAME LIKE '%' || #{searchDto.keyword} || '%'
+                </when>
+                <when test="'loginId'.equals(searchDto.cate)">
+                    LOGIN_ID LIKE '%' || #{searchDto.keyword} || '%'
+                </when>
+            </choose>
+            <if test="gender != null and !gender.equals('A')">
+                AND GENDER = #{gender}
+            </if>
+        </trim>
+    </select>
+
+    <select id="selectByGender" resultType="userDto">
+        SELECT USER_ID, LOGIN_ID, PASSWORD, NAME, GENDER
+        FROM TBL_USER
+        WHERE GENDER IN
+              <foreach collection="genders" item="gender" open="(" close=")" separator=",">
+                  #{gender}
+              </foreach>
+    </select>
+</mapper>

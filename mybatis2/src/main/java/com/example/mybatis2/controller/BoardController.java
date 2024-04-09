@@ -20,7 +20,9 @@ public class BoardController {
     @GetMapping("/list")
     public String boardList(SearchDto searchDto, Model model){
         System.out.println("searchDto = " + searchDto);
-        List<BoardDto> boardList = boardMapper.selectAll();
+
+
+        List<BoardDto> boardList = boardMapper.selectByKeyword(searchDto);
         model.addAttribute("boardList",boardList);
 
         return "board/list";

@@ -19,7 +19,7 @@
 
     <update id="updateBoard" parameterType="boardDto">
         UPDATE TBL_BOARD
-        SET TITLE = #{title}, CONTENT = #{content}
+        SET TITLE = #{title},WRITER =#{writer}, CONTENT = #{content}
         WHERE BOARD_ID = #{boardId}
     </update>
 
@@ -27,4 +27,54 @@
         DELETE FROM TBL_BOARD
         WHERE BOARD_ID = #{boardId}
     </delete>
+
+    <select id="selectByKeyword" parameterType="searchDto" resultType="boardDto">
+        SELECT BOARD_ID, TITLE, CONTENT, WRITER
+        FROM TBL_BOARD
+        <if test="'boardId'.equals(cate)">
+            WHERE BOARD_ID = #{keyword}
+        </if>
+        <if test="'title'.equals(cate)">
+            WHERE TITLE LIKE '%' || #{keyword} || '%'
+        </if>
+        <if test="'writer'.equals(cate)">
+            WHERE WRITER LIKE '%' || #{keyword} || '%'
+        </if>
+    </select>
+
+    <select id="selectByKeyword2" parameterType="searchDto" resultType="boardDto">
+        SELECT BOARD_ID, TITLE, CONTENT, WRITER
+        FROM TBL_BOARD
+        <choose>
+        <when test="'boardId'.equals(cate)">
+            WHERE BOARD_ID = #{keyword}
+        </when>
+        <when test="'title'.equals(cate)">
+            WHERE TITLE LIKE '%' || #{keyword} || '%'
+        </when>
+        <when test="'writer'.equals(cate)">
+            WHERE WRITER LIKE '%' || #{keyword} || '%'
+        </when>
+        <otherwise>
+
+        </otherwise>
+        </choose>
+    </select>
+
+
+    <select id="selectByKeyword3" parameterType="searchDto" resultType="boardDto">
+        SELECT BOARD_ID, TITLE, CONTENT, WRITER
+        FROM TBL_BOARD
+        <where>
+        <if test="'boardId'.equals(cate)">
+            BOARD_ID = #{keyword}
+        </if>
+        <if test="'title'.equals(cate)">
+            TITLE LIKE '%' || #{keyword} || '%'
+        </if>
+        <if test="'writer'.equals(cate)">
+            WRITER LIKE '%' || #{keyword} || '%'
+        </if>
+        </where>
+    </select>
 </mapper>
