@@ -30,4 +30,30 @@
                   #{gender}
               </foreach>
     </select>
+
+    <select id="selectByKeyword2" parameterType="map" resultType="userDto">
+        SELECT USER_ID, LOGIN_ID, PASSWORD, NAME, GENDER
+        FROM TBL_USER
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <choose>
+                <when test="'userId'.equals(searchDto.cate)">
+                    USER_ID = #{searchDto.keyword}
+                </when>
+                <when test="'name'.equals(searchDto.cate)">
+                    NAME LIKE '%' || #{searchDto.keyword} || '%'
+                </when>
+                <when test="'loginId'.equals(searchDto.cate)">
+                    LOGIN_ID LIKE '%' || #{searchDto.keyword} || '%'
+                </when>
+            </choose>
+
+        <if test="genders != null">
+            AND GENDER IN
+            <foreach collection="genders" item="gender" open="(" close=")" separator=",">
+                #{gender}
+            </foreach>
+        </if>
+
+        </trim>
+    </select>
 </mapper>

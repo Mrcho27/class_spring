@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table {
+            border-spacing: 0;
+            border: 1px solid black;
+            width: 500px;
+            margin: 0 auto;
+        }
+
+        th {
+            border-bottom: 3px solid #cccccc;
+        }
+
+        td {
+            border-bottom: 1px solid #cccccc;
+            text-align: center;
+        }
+
+        .search{
+            width: 500px;
+            margin: 20px auto;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+<h1>User List Page</h1>
+
+<section class="search">
+    <form th:action="@{/user/list2}" method="get">
+        전체 <input type="checkbox" name="gender" value="A" checked>
+        남 <input type="checkbox" name="gender" value="M">
+        여 <input type="checkbox" name="gender" value="F">
+        선택안함 <input type="checkbox" name="gender" value="N">
+        <select name="cate">
+            <option value="userId">번호</option>
+            <option value="loginId">아이디</option>
+            <option value="name">이름</option>
+        </select>
+        <input type="text" name="keyword">
+        <button>검색</button>
+    </form>
+</section>
+
+<table>
+    <tr>
+        <th>번호</th>
+        <th>아이디</th>
+        <th>이름</th>
+        <th>성별</th>
+    </tr>
+
+    <tr th:each="user : ${userList}" >
+        <td th:text="${user.userId}"></td>
+        <td th:text="${user.loginId}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.gender}"></td>
+    </tr>
+</table>
+</body>
+</html>

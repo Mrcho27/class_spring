@@ -20,4 +20,7 @@ public interface UserMapper {
                                   @Param("gender") String gender);
 
     List<UserDto> selectByGender(List<String> genders);
+
+    List<UserDto> selectByKeyword2(@Param("searchDto") SearchDto searchDto,
+                                   @Param("genders") List<String> genders);
 }
