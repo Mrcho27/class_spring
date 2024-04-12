@@ -28,11 +28,13 @@
             margin-top: 20px;
         }
     </style>
+    <link rel="stylesheet" th:href="@{/css/fragment/header.css}">
 </head>
 <body>
+<header th:replace="~{/fragment/header :: header}"></header>
 <fieldset>
     <legend>회원가입</legend>
-    <form action="/user/join" method="post">
+    <form th:action="@{/user/join}" method="post">
 
         <div class="flex">
             <div class="label">

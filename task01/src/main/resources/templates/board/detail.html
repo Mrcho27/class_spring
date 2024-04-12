@@ -60,8 +60,10 @@
             width: 600px;
         }
     </style>
+    <link rel="stylesheet" th:href="@{/css/fragment/header.css}">
 </head>
 <body>
+<header th:replace="~{/fragment/header :: header}"></header>
 <fieldset>
     <legend>글 상세보기</legend>
     <form action="" method="post">

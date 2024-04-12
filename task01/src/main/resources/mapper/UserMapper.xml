@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.task01.mapper.UserMapper">
+   <insert id="insertUser" parameterType="userDto">
+       INSERT INTO TBL_USER(USER_ID, LOGIN_ID, PASSWORD, NAME, ADDRESS, ADDRESS_DETAIL, ZIPCODE, GENDER)
+       VALUES (SEQ_USER.nextval, #{loginId}, #{password}, #{name} , #{address}, #{addressDetail}, #{zipcode}, #{gender})
+   </insert>
+
+    <select id="selectUserId" parameterType="map" resultType="Long">
+        SELECT USER_ID
+        FROM TBL_USER
+        WHERE LOGIN_ID = #{loginId} AND PASSWORD = #{password}
+    </select>
+
+    <select id="selectByLoginId" parameterType="String" resultType="int">
+        SELECT COUNT(USER_ID)
+        FROM TBL_USER
+        WHERE LOGIN_ID = #{loginId}
+    </select>
+</mapper>

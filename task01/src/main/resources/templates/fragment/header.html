@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/fragment/header.css}">
+</head>
+<body>
+    <header th:fragment="header">
+        <section>
+            <ul>
+                <li>LOGO</li>
+                <li>
+                    <a th:href="@{/board/list}">게시판</a>
+                </li>
+            </ul>
+        </section>
+        <section th:if="${session.userId == null}">
+            <div>
+                <a th:href="@{/user/login}">로그인</a>
+            </div>
+            <div>
+                <a th:href="@{/user/join}">회원가입</a>
+            </div>
+        </section>
+        <section th:unless="${session.userId == null}">
+            <div>
+                <a th:href="@{/user/logout}">로그아웃</a>
+            </div>
+        </section>
+    </header>
+</body>
+</html>

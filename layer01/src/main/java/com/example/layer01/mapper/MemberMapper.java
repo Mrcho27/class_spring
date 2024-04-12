@@ -10,4 +10,6 @@ public interface MemberMapper {
     void insertMember(MemberDto memberDto);
 
     Optional<MemberDto> selectMember(Long memberId);
+
+
 }
