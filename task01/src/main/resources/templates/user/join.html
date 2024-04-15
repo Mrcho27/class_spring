@@ -27,8 +27,14 @@
             width: 230px;
             margin-top: 20px;
         }
+
+        .login-id-msg{
+            font-size: 10px;
+            color: red;
+        }
     </style>
     <link rel="stylesheet" th:href="@{/css/fragment/header.css}">
+    <script defer th:src="@{/js/user/join.js}"></script>
 </head>
 <body>
 <header th:replace="~{/fragment/header :: header}"></header>
@@ -47,6 +53,10 @@
                 <div class="gender-label">성별 :</div>
             </div>
             <div class="input">
+                <div>
+                    <input type="text" name="loginId"> <br>
+                    <span class="login-id-msg"></span>
+                </div>
                 <div><input type="text" name="loginId"></div>
                 <div><input type="password" name="password"></div>
                 <div><input type="text" name="name"></div>

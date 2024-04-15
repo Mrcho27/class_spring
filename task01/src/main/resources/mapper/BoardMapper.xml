@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.task01.mapper.BoardMapper">
+   <insert id="insertBoard" parameterType="boardDto">
+       INSERT INTO TBL_BOARD (BOARD_ID, TITLE, CONTENT, USER_ID)
+       VALUES (SEQ_BOARD.nextval, #{title}, #{content}, #{userId})
+   </insert>
+
+    <select id="selectAll" resultType="boardListDto">
+        SELECT B.BOARD_ID, B.TITLE, B.USER_ID, U.LOGIN_ID
+        FROM TBL_BOARD B JOIN TBL_USER U
+        ON B.USER_ID = U.USER_ID
+        ORDER BY BOARD_ID DESC
+    </select>
+
+    <select id="selectById" parameterType="long" resultType="boardDetailDto">
+        SELECT TITLE, CONTENT
+        FROM TBL_BOARD
+        WHERE BOARD_ID = #{boardId}
+    </select>
+</mapper>

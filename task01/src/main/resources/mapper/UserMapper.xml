@@ -17,4 +17,6 @@
         FROM TBL_USER
         WHERE LOGIN_ID = #{loginId}
     </select>
+
+
 </mapper>

@@ -28,5 +28,8 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 인증 정보"));
     }
 
+    public int findByLoginId(String loginId){
+        return userMapper.selectByLoginId(loginId);
+    }
 
 }

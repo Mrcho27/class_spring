@@ -71,7 +71,18 @@
         </tr>
         </thead>
         <tbody>
-        <tr></tr>
+        <tr th:each="board : ${boardList}">
+            <td th:text="${board.boardId}"></td>
+            <td>
+<!--                타임리프에서 @{}로 링크를 사용할 때
+                    쿼리스트링을 이용하여 데이터를 보내고 싶다면
+                    (키=값)으로 표현하면 된다.
+-->
+                <a th:href="@{/board/detail(boardId=${board.boardId})}" th:text="${board.title}"></a>
+            </td>
+            <td th:text="${board.loginId}"></td>
+            <td>2024-04-15</td>
+        </tr>
         </tbody>
     </table>
 

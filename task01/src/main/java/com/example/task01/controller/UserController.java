@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Slf4j
@@ -50,7 +51,7 @@ public class UserController {
             return "user/login";
         }
 
-        return "board/list";
+        return "redirect:/board/list";
     }
 
     @GetMapping("/logout")
@@ -62,5 +63,15 @@ public class UserController {
 
 //        RedirectView 객체를 활용하여 리다이렉트 하기
         return new RedirectView("/user/login");
+    }
+
+//    @Controller 가 적용된 클래스에서 메서드에 @ResponseBody 어노테이션을 사용할 수 있다.
+//    해당 어노테이션이 붙은 메서드는 반환하는 값을 응답의 Body에 저장하여 보내준다.
+//    즉, 전체 HTML 코드를 통신하는 것이 아니라 원하는 데이터만 응답으로 보낼 수 있다.
+    
+    @ResponseBody
+    @GetMapping("/test")
+    public int test(){
+        return 123;
     }
 }
