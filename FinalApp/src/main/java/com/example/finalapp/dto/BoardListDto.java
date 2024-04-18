@@ -5,12 +5,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter @Setter @ToString//(exclude = {"title","content"})
+@Getter @Setter @ToString
 @NoArgsConstructor
-public class BoardDto {
+public class BoardListDto {
     private Long boardId;
     private String title;
-    private String content;
-    private String createdDate;
-    private String modifiedDate;
+    private String loginId;
 }
