@@ -21,7 +21,7 @@
     </update>
 
     <select id="selectById" parameterType="Long" resultType="BoardViewDto">
-        SELECT BOARD_ID, TITLE, CONTENT, CREATED_DATE, MODIFIED_DATE,
+        SELECT BOARD_ID, TITLE, CONTENT,CREATED_DATE, MODIFIED_DATE,
                U.LOGIN_ID, U.USER_ID
         FROM TBL_BOARD B JOIN TBL_USER U
                               ON B.BOARD_ID = #{boardId} AND B.USER_ID = U.USER_ID
@@ -32,5 +32,22 @@
         FROM TBL_BOARD B JOIN TBL_USER U
                               ON B.USER_ID = U.USER_ID
         ORDER BY BOARD_ID DESC
+    </select>
+
+    <select id="selectAllPage" resultType="BoardListDto">
+        SELECT BOARD_ID, TITLE, LOGIN_ID
+        FROM (SELECT ROWNUM AS RNUM, BOARD_ID, TITLE, LOGIN_ID
+              FROM (
+                    SELECT BOARD_ID, TITLE, U.LOGIN_ID
+                    FROM TBL_BOARD B
+                             JOIN TBL_USER U
+                             ON B.USER_ID = U.USER_ID
+                    ORDER BY BOARD_ID DESC
+                    )
+             <![CDATA[
+              WHERE ROWNUM <= 10
+                 ]]>
+                 )
+             WHERE RNUM > 0
     </select>
 </mapper>
