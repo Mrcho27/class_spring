@@ -1,7 +1,8 @@
 package com.example.finalapp.service;
 
-import com.example.finalapp.dto.UserDto;
-import com.example.finalapp.mapper.UserMapper;
+import com.example.finalapp.dto.user.UserDto;
+import com.example.finalapp.mapper.user.UserMapper;
+import com.example.finalapp.service.user.UserService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,7 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.verification.VerificationMode;
 
 import java.util.Optional;
 

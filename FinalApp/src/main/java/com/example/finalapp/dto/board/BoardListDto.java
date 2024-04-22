@@ -1,4 +1,4 @@
-package com.example.finalapp.dto;
+package com.example.finalapp.dto.board;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

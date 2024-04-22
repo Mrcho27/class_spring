@@ -1,10 +1,11 @@
 package com.example.finalapp.service;
 
-import com.example.finalapp.dto.BoardListDto;
-import com.example.finalapp.dto.BoardUpdateDto;
-import com.example.finalapp.dto.BoardViewDto;
-import com.example.finalapp.dto.BoardWriteDto;
-import com.example.finalapp.mapper.BoardMapper;
+import com.example.finalapp.dto.board.BoardListDto;
+import com.example.finalapp.dto.board.BoardUpdateDto;
+import com.example.finalapp.dto.board.BoardViewDto;
+import com.example.finalapp.dto.board.BoardWriteDto;
+import com.example.finalapp.mapper.board.BoardMapper;
+import com.example.finalapp.service.board.BoardService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -1,7 +1,13 @@
 package com.example.finalapp.mapper;
 
-import com.example.finalapp.dto.*;
-import org.assertj.core.api.Assertions;
+import com.example.finalapp.dto.board.BoardListDto;
+import com.example.finalapp.dto.board.BoardUpdateDto;
+import com.example.finalapp.dto.board.BoardViewDto;
+import com.example.finalapp.dto.board.BoardWriteDto;
+import com.example.finalapp.dto.page.Criteria;
+import com.example.finalapp.dto.user.UserDto;
+import com.example.finalapp.mapper.board.BoardMapper;
+import com.example.finalapp.mapper.user.UserMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.fail;
 @SpringBootTest
 @Transactional
 class BoardMapperTest {
-    @Autowired BoardMapper boardMapper;
-    @Autowired UserMapper userMapper;
+    @Autowired
+    BoardMapper boardMapper;
+    @Autowired
+    UserMapper userMapper;
 
     BoardWriteDto boardWriteDto;
     UserDto userDto;
@@ -95,5 +103,19 @@ class BoardMapperTest {
                 .isNotEmpty() // 비어있지 않은지 검사
                 .extracting("title") // 리스트에 담긴 dto들의 title 필드만 가져오기
                 .contains(boardWriteDto.getTitle()); // 여러 title 중에 특정 값이 포함되었는지 검사
+    }
+
+    @Test
+    void selectAllPage(){
+        //given
+        Criteria criteria = new Criteria();
+        criteria.setPage(1);
+        criteria.setAmount(10);
+
+        //when
+        List<BoardListDto> list = boardMapper.selectAllPage(criteria);
+
+        //then
+        assertThat(list).hasSize(10);
     }
 }

@@ -13,3 +13,13 @@ spring:
       jdbc-url: jdbc:log4jdbc:oracle:thin:@//localhost:1521/XE
       username: hr
       password: 1234
+  servlet:
+    multipart:
+      enabled: true
+      max-request-size: 40MB
+      max-file-size: 40MB
+      file-size-threshold: 100MB
+
+# 파일 경로 설정
+file:
+  dir: C:/upload/

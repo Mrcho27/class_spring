@@ -1,7 +1,7 @@
-package com.example.finalapp.controller;
+package com.example.finalapp.controller.user;
 
-import com.example.finalapp.dto.UserDto;
-import com.example.finalapp.service.UserService;
+import com.example.finalapp.dto.user.UserDto;
+import com.example.finalapp.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

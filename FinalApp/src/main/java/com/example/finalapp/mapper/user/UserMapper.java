@@ -1,9 +1,8 @@
-package com.example.finalapp.mapper;
+package com.example.finalapp.mapper.user;
 
-import com.example.finalapp.dto.UserDto;
+import com.example.finalapp.dto.user.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 

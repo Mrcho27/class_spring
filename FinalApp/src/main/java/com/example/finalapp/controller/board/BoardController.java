@@ -1,21 +1,22 @@
-package com.example.finalapp.controller;
+package com.example.finalapp.controller.board;
 
-import com.example.finalapp.dto.BoardListDto;
-import com.example.finalapp.dto.BoardUpdateDto;
-import com.example.finalapp.dto.BoardViewDto;
-import com.example.finalapp.dto.BoardWriteDto;
-import com.example.finalapp.service.BoardService;
+import com.example.finalapp.dto.board.BoardListDto;
+import com.example.finalapp.dto.board.BoardUpdateDto;
+import com.example.finalapp.dto.board.BoardViewDto;
+import com.example.finalapp.dto.board.BoardWriteDto;
+import com.example.finalapp.dto.page.Criteria;
+import com.example.finalapp.dto.page.Page;
+import com.example.finalapp.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -26,9 +27,13 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/list")
-    public String boardList(Model model){
-        List<BoardListDto> boardList = boardService.findAll();
+    public String boardList(Criteria criteria, Model model){
+        List<BoardListDto> boardList = boardService.findAllPage(criteria);
+        int total = boardService.findTotal();
+        Page page = new Page(criteria, total);
+
         model.addAttribute("boardList", boardList);
+        model.addAttribute("page", page);
 
         return "board/list";
     }
@@ -41,11 +46,18 @@ public class BoardController {
     @PostMapping("/write")
     public String boardWrite(BoardWriteDto boardWriteDto,
                              @SessionAttribute("userId") Long userId,
-                            RedirectAttributes redirectAttributes){
+                             RedirectAttributes redirectAttributes,
+                             @RequestParam("boardFile") List<MultipartFile> files){
         boardWriteDto.setUserId(userId);
         log.info("boardWriteDto = " + boardWriteDto);
+//        files.forEach(file -> System.out.println(file.getOriginalFilename()));
+//        boardService.registerBoard(boardWriteDto);
 
-        boardService.registerBoard(boardWriteDto);
+        try {
+            boardService.registerBoardWithFiles(boardWriteDto, files);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 //        addFlashAttribute(키, 값) 은 리다이렉트 되는 url과 매핑된 컨트롤러 메소드의 model객체에
 //        데이터를 저장시킨다.

@@ -1,7 +1,7 @@
-package com.example.finalapp.service;
+package com.example.finalapp.service.user;
 
-import com.example.finalapp.dto.UserDto;
-import com.example.finalapp.mapper.UserMapper;
+import com.example.finalapp.dto.user.UserDto;
+import com.example.finalapp.mapper.user.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

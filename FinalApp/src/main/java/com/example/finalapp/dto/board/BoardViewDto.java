@@ -1,15 +1,20 @@
-package com.example.finalapp.dto;
+package com.example.finalapp.dto.board;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter @Setter @ToString//(exclude = {"title","content"})
+import java.time.LocalDate;
+
+@Getter @Setter @ToString
 @NoArgsConstructor
-public class BoardWriteDto {
+public class BoardViewDto {
     private Long boardId;
     private String title;
     private String content;
+    private LocalDate createdDate;
+    private LocalDate modifiedDate;
+    private String loginId;
     private Long userId;
 }
