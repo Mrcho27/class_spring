@@ -35,20 +35,42 @@
     </select>
 
     <select id="selectAllPage" parameterType="Criteria" resultType="BoardListDto">
-        SELECT BOARD_ID, TITLE, LOGIN_ID
-        FROM (SELECT ROWNUM AS RNUM, BOARD_ID, TITLE, LOGIN_ID
-              FROM (
-                    SELECT BOARD_ID, TITLE, U.LOGIN_ID
+        <![CDATA[
+        SELECT BOARD_ID, TITLE, LOGIN_ID, FILE_ID, NAME, UPLOAD_PATH, UUID
+        FROM (SELECT ROWNUM AS RNUM,
+                     BOARD_ID,
+                     TITLE,
+                     LOGIN_ID,
+                     FILE_ID,
+                     NAME,
+                     UPLOAD_PATH,
+                     UUID
+              FROM (SELECT B.BOARD_ID,
+                           TITLE,
+                           U.LOGIN_ID,
+                           F.FILE_ID,
+                           F.NAME,
+                           F.UPLOAD_PATH,
+                           F.UUID
                     FROM TBL_BOARD B
                              JOIN TBL_USER U
-                             ON B.USER_ID = U.USER_ID
-                    ORDER BY BOARD_ID DESC
-                    )
-             <![CDATA[
+                                  ON B.USER_ID = U.USER_ID
+                             LEFT JOIN (SELECT FILE_ID, NAME, UPLOAD_PATH, UUID, BOARD_ID
+                                        FROM (SELECT FILE_ID,
+                                                     NAME,
+                                                     UPLOAD_PATH,
+                                                     UUID,
+                                                     BOARD_ID,
+                                                     RANK() OVER (PARTITION BY BOARD_ID ORDER BY FILE_ID) RK
+                                              FROM TBL_FILE)
+                                        WHERE RK = 1) F
+                                       ON B.BOARD_ID = F.BOARD_ID
+                    ORDER BY BOARD_ID DESC)
               WHERE ROWNUM <= #{page} * #{amount}
-                 ]]>
-                 )
-             WHERE RNUM > (#{page} - 1) * #{amount}
+              )
+        WHERE RNUM > (#{page} - 1) * #{amount}
+        ]]>
+
     </select>
 
     <select id="selectTotal" resultType="int">

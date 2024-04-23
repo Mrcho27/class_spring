@@ -10,6 +10,7 @@ import com.example.finalapp.dto.page.Criteria;
 import com.example.finalapp.mapper.board.BoardMapper;
 import com.example.finalapp.mapper.file.FileMapper;
 import lombok.RequiredArgsConstructor;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -85,6 +87,18 @@ public class BoardService {
 
 //        매개변수로 받은 Multipart 객체가 가진 파일을 우리가 만든 경로와 이름으로 저장한다.
         file.transferTo(uploadFile);
+
+//        ++++++썸네일 저장++++++
+        String contentType = Files.probeContentType(uploadFile.toPath());
+
+//        이미지 파일인 경우에만 처리하는 조건식
+        if(contentType.startsWith("image")){
+            Thumbnails.of(uploadFile)
+                    .size(300, 200)
+                    .toFile(new File(uploadPath, "th_" + systemName));
+        }
+
+//        ++++++++++++++++++++++
 
         FileDto fileDto = new FileDto();
         fileDto.setUuid(uuid.toString());

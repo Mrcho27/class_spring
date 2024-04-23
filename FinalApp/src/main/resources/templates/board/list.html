@@ -19,7 +19,14 @@
         <!-- 게시물 샘플 -->
         <div class="board-item" th:each="board : ${boardList}">
             <div class="board-img-box">
-                <div class="board-item-image" style="background-image: url(https://via.placeholder.com/300x200)"></div>
+                <div class="board-item-image" th:if="${board.fileId == null}"
+                     style="background-image: url(https://via.placeholder.com/300x200)">
+                </div>
+
+                <div class="board-item-image" th:unless="${board.fileId == null}"
+                     th:style="'background-image: url(/upload/' + ${board.uploadPath} + '/th_' + ${board.uuid} + '_' + ${board.name} + ')' ">
+                </div>
+
                 <div class="board-item-info">
               <span class="like">
                 <i class="fas fa-heart"></i>

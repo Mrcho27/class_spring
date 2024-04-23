@@ -11,4 +11,8 @@ public class BoardListDto {
     private Long boardId;
     private String title;
     private String loginId;
+    private Long fileId;
+    private String name;
+    private String uploadPath;
+    private String uuid;
 }
