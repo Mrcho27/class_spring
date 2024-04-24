@@ -4,6 +4,11 @@ import com.example.finalapp.dto.file.FileDto;
 import com.example.finalapp.service.file.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 @RestController
@@ -53,5 +60,27 @@ public class FileApi {
         File file = new File(fileDir,fileName);
 
         return FileCopyUtils.copyToByteArray(file);
+    }
+
+    @GetMapping("/download")
+//    httpServletResponse와 동일하게 ResponseEntity객체는 응답을 나타내는 객체이다.
+//    스프링에서 지원하는 응답객체이며 기존의 응답 객체보다 간편하게 설정할 수 있다는 장점이 있다.
+    public ResponseEntity<Resource> download(String fileName) throws UnsupportedEncodingException {
+//      Resource 객체는 말 그대로 자원을 나타내는 객체이다. 스프링에서 지원하는 타입이다.
+//      이미지 파일이라는 리소스를 다운로드 처리하기 위해 사용하고 있으며, File 객체보다
+//      많은 종류의 리소스를 다룰 수 있고 스프링과의 호환성이 좋다.
+//      Resource는 인터페이스이므로 객체화를 할 때는 자식 클래스를 사용한다.
+        Resource resource = new FileSystemResource(fileDir + fileName);
+        HttpHeaders headers = new HttpHeaders();
+
+        String name = resource.getFilename();
+
+        name = name.substring(name.indexOf("_")+1);
+
+//      Content-Disposition 헤더로 설정하여 클라이언트 브라우저가 첨부파일이라는 것을 알게 함
+        headers.add("Content-Disposition", "attachment;filename="+ URLEncoder.encode(name, "UTF-8"));
+
+
+        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
     }
 }

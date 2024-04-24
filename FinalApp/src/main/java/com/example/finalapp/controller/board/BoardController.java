@@ -94,8 +94,15 @@ public class BoardController {
     }
 
     @PostMapping("/modify")
-    public String boardModify(BoardUpdateDto boardUpdateDto, RedirectAttributes redirectAttributes){
-        boardService.modifyBoard(boardUpdateDto);
+    public String boardModify(BoardUpdateDto boardUpdateDto,
+                              RedirectAttributes redirectAttributes,
+                              @RequestParam("boardFile") List<MultipartFile> files){
+
+        try {
+            boardService.modifyBoard(boardUpdateDto, files);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 //        RedirectAttributes 객체는 스프링에서 지원하는 객체이다.
 //        리다이렉트를 할 때 데이터를 들고 가는 것은 일반적으로 불가능하다.
@@ -113,27 +120,6 @@ public class BoardController {
         boardService.removeBoard(boardId);
         return new RedirectView("/board/list");
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

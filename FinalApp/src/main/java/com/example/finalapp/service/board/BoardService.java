@@ -52,6 +52,7 @@ public class BoardService {
         Long boardId = boardWriteDto.getBoardId();
 
         for (MultipartFile file : files) {
+            if (file.isEmpty()){break;}
             FileDto fileDto = saveFile(file);
             fileDto.setBoardId(boardId);
             fileMapper.insertFile(fileDto);
@@ -117,11 +118,37 @@ public class BoardService {
 
 
     public void removeBoard(Long boardId) {
+        List<FileDto> fileList = fileMapper.selectList(boardId);
+        fileMapper.deleteFile(boardId);
         boardMapper.deleteBoard(boardId);
+
+        for (FileDto file : fileList) {
+            File target = new File(fileDir, file.getUploadPath() + "/" + file.getUuid() + "_" + file.getName());
+            File thumbnail = new File(fileDir, file.getUploadPath() + "/th_" + file.getUuid() + "_" + file.getName());
+
+            if (target.exists()){
+                target.delete();
+            }
+
+            if (thumbnail.exists()){
+                thumbnail.delete();
+            }
+        }
     }
 
-    public void modifyBoard(BoardUpdateDto boardUpdateDto){
+    public void modifyBoard(BoardUpdateDto boardUpdateDto, List<MultipartFile> files) throws IOException{
+
         boardMapper.updateBoard(boardUpdateDto);
+        Long boardId = boardUpdateDto.getBoardId();
+
+        fileMapper.deleteFile(boardId);
+
+        for (MultipartFile file : files) {
+            if (file.isEmpty()){break;}
+            FileDto fileDto = saveFile(file);
+            fileDto.setBoardId(boardId);
+            fileMapper.insertFile(fileDto);
+        }
     }
 
     public BoardViewDto findById(Long boardId) {

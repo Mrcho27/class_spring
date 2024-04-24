@@ -3,18 +3,18 @@
     let $removeBtn=document.querySelector('.btn-remove');
     let $backBtn=document.querySelector('.btn-back');
 
-    $removeBtn.addEventListener("click", function (){
+    $removeBtn?.addEventListener("click", function (){
         let boardId = this.dataset.id;
         location.href = `/board/remove?boardId=${boardId}`;
     });
 
-    $modifyBtn.addEventListener('click', function (){
+    $modifyBtn?.addEventListener('click', function (){
         let boardId = this.dataset.id;
         console.log(boardId)
         location.href = `/board/modify?boardId=${boardId}`;
     });
 
-    $backBtn.addEventListener('click', function (){
+    $backBtn?.addEventListener('click', function (){
         window.history.back();
     });
 }
@@ -47,7 +47,9 @@ function displayImgAjax(){
             for (let i=0; i<list.length; i++){
                 let fileName = list[i].uploadPath + '/' + list[i].uuid + '_' + list[i].name;
 
-                tags += `<img src="/v1/files?fileName=${fileName}"/>`;
+                tags += `<a href="/download?fileName=${fileName}">
+                        <img src="/v1/files?fileName=${fileName}" data-id="${list[i].filId}" data-name="${fileName}"/>
+                        </a>`;
             }
 
             let $postImgs = document.querySelector('.post-images');
