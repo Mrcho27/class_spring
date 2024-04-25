@@ -6,7 +6,8 @@
     <title>게시물 상세보기</title>
     <link rel="stylesheet" th:href="@{/css/board/list.css}" />
     <link rel="stylesheet" th:href="@{/css/board/view.css}" />
-    <script defer th:src="@{/js/board/view.js}"></script>
+    <!-- script 태그에 stype=module 설정을 해야 모듈을 사용할 수 있다. -->
+    <script defer type="module" th:src="@{/js/board/view.js}"></script>
 </head>
 <body>
 <header class="header" th:replace="~{/fragment/header :: header}"></header>
@@ -39,17 +40,18 @@
             <button type="button" class="btn-back">뒤로 가기</button>
         </div>
         <div class="reply-wrap">
+            <th:block th:if="${session.userId != null}">
             <h3>댓글 작성</h3>
             <div class="reply-wrap__box">
                 <div class="reply-content__box">
-                    <div class="reply-writer">홍길동</div>
+                    <div class="reply-writer" th:text="${session.loginId}"></div>
                     <textarea name="replyContent" id="reply-content" cols="30" rows="10"></textarea>
                 </div>
                 <div class="reply-btn-wrap">
                     <button type="button" class="btn-reply">작성 완료</button>
                 </div>
             </div>
-
+            </th:block>
             <!-- 댓글 리스트 -->
             <div class="reply-list-wrap">
                 <!-- 리플 예시 -->

@@ -14,6 +14,7 @@
                LOGIN_ID
         FROM TBL_REPLY R JOIN TBL_USER U
         ON R.BOARD_ID = #{boardId} AND R.USER_ID = U.USER_ID
+        ORDER BY R.REPLY_ID DESC
     </select>
 
     <update id="updateReply" parameterType="ReplyUpdateDto">

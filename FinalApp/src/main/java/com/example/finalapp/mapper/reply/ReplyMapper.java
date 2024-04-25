@@ -15,6 +15,6 @@ public interface ReplyMapper {
 
     void updateReply(ReplyUpdateDto replyUpdateDto);
 
-    void deleteReply(Long boardId);
+    void deleteReply(Long replyId);
 
 }

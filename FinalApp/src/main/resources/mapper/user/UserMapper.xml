@@ -14,4 +14,10 @@
         FROM TBL_USER
         WHERE LOGIN_ID = #{loginId} AND PASSWORD = #{password}
     </select>
+
+    <select id="selectLoginInfo" resultType="UserSessionDto">
+        SELECT USER_ID, LOGIN_ID
+        FROM TBL_USER
+        WHERE LOGIN_ID = #{loginId} AND PASSWORD = #{password}
+    </select>
 </mapper>

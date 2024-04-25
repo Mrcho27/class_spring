@@ -25,8 +25,8 @@ public class ReplyService {
     public void modifyReply(ReplyUpdateDto replyUpdateDto){
         replyMapper.updateReply(replyUpdateDto);
     }
-    public void removeReply(Long boardId){
-        replyMapper.deleteReply(boardId);
+    public void removeReply(Long replyId){
+        replyMapper.deleteReply(replyId);
     }
 
 

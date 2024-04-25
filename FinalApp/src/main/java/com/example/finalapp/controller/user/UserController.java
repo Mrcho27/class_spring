@@ -1,6 +1,7 @@
 package com.example.finalapp.controller.user;
 
 import com.example.finalapp.dto.user.UserDto;
+import com.example.finalapp.dto.user.UserSessionDto;
 import com.example.finalapp.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +40,9 @@ public class UserController {
 
     @PostMapping("/login")
     public RedirectView login(String loginId, String password, HttpSession session){
-        Long userId = userService.findId(loginId,password);
-        session.setAttribute("userId", userId);
+        UserSessionDto loginInfo = userService.findLoginInfo(loginId, password);
+        session.setAttribute("userId", loginInfo.getUserId());
+        session.setAttribute("loginId", loginInfo.getLoginId());
         return new RedirectView("/board/list");
     }
 
