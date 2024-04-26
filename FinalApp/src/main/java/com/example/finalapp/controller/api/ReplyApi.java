@@ -35,8 +35,7 @@ public class ReplyApi {
     @PatchMapping("/v1/replies/{replyId}")
     public void modifyReply(@RequestBody ReplyUpdateDto replyUpdateDto,
                             @PathVariable("replyId") Long replyId){
-
-        replyService.modifyReply(replyUpdateDto);
+        replyUpdateDto.setReplyId(replyId);
         replyService.modifyReply(replyUpdateDto);
     }
 

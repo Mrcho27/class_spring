@@ -1,5 +1,6 @@
 package com.example.finalapp.mapper.reply;
 
+import com.example.finalapp.dto.page.Criteria;
 import com.example.finalapp.dto.reply.ReplyListDto;
 import com.example.finalapp.dto.reply.ReplyUpdateDto;
 import com.example.finalapp.dto.reply.ReplyWriteDto;
@@ -16,5 +17,7 @@ public interface ReplyMapper {
     void updateReply(ReplyUpdateDto replyUpdateDto);
 
     void deleteReply(Long replyId);
+
+    List<ReplyListDto> selectSlice(Criteria criteria);
 
 }

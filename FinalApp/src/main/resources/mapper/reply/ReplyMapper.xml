@@ -24,6 +24,28 @@
         WHERE REPLY_ID = #{replyId}
     </update>
 
+    <select id="selectSlice" parameterType="Criteria" resultType="ReplyListDto">
+        <![CDATA[
+        SELECT REPLY_ID, CONTENT, BOARD_ID, USER_ID, CREATED_DATE, MODIFIED_DATE, LOGIN_ID
+        FROM(
+        SELECT ROWNUM AS RNUM, REPLY_ID, CONTENT, BOARD_ID, USER_ID, CREATED_DATE, MODIFIED_DATE, LOGIN_ID
+        FROM (
+        SELECT R.REPLY_ID,
+        CONTENT,
+        R.BOARD_ID,
+        R.USER_ID,
+        CREATED_DATE,
+        MODIFIED_DATE,
+        LOGIN_ID
+        FROM TBL_REPLY R
+        JOIN TBL_USER U
+        ON R.BOARD_ID = 1 AND R.USER_ID = U.USER_ID
+        ORDER BY R.REPLY_ID DESC )
+        WHERE ROWNUM <= #{page} * #{amount} + 1
+        )WHERE RNUM > (#{page} - 1) * #{amount}
+        ]]>
+    </select>
+
     <delete id="deleteReply" parameterType="Long">
         DELETE FROM TBL_REPLY
         WHERE REPLY_ID = #{replyId}
