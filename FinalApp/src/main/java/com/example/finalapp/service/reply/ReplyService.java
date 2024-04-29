@@ -1,6 +1,7 @@
 package com.example.finalapp.service.reply;
 
 import com.example.finalapp.dto.page.Criteria;
+import com.example.finalapp.dto.page.Slice;
 import com.example.finalapp.dto.reply.ReplyListDto;
 import com.example.finalapp.dto.reply.ReplyUpdateDto;
 import com.example.finalapp.dto.reply.ReplyWriteDto;
@@ -30,18 +31,19 @@ public class ReplyService {
         replyMapper.deleteReply(replyId);
     }
 
-    public void findSlice(Criteria criteria){
-        List<ReplyListDto> replylist = replyMapper.selectSlice(criteria);
+    public Slice<ReplyListDto> findSlice(Criteria criteria, Long boardId){
+        List<ReplyListDto> replyList = replyMapper.selectSlice(criteria,boardId);
 
-        boolean hasNext = replylist.size() > criteria.getAmount();
+        boolean hasNext = replyList.size() > criteria.getAmount();
+
         if(hasNext){
-            replylist.remove(criteria.getAmount());
+            replyList.remove(criteria.getAmount());
         }
 
 
         //TODO 2024-04-26 csh: Slice 클래스를 생성하여 list와 hasNext를 저장할 수 있는 필드를 만들어준다.
         //  해당 객체에 list와 hasNext를 저장하고 여기서 반환해준다.
-        return;
+        return new Slice<ReplyListDto>(hasNext, replyList);
     }
 
 

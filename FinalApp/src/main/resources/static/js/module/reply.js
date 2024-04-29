@@ -29,6 +29,13 @@ export function getList(boardId, callback){
         .then(dataList => { callback(dataList) });
 }
 
+export function getList2(boardId, page, callback){
+    fetch(`/v2/boards/${boardId}/replies?page=${page}`, {
+        method : 'get'
+    }).then(resp => resp.json())
+        .then(dataList => { callback(dataList) });
+}
+
 export function modify(updateInfo, callback){
     fetch(`/v1/replies/${updateInfo.replyId}`, {
         method : 'PATCH',

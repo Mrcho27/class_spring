@@ -24,7 +24,7 @@
         WHERE REPLY_ID = #{replyId}
     </update>
 
-    <select id="selectSlice" parameterType="Criteria" resultType="ReplyListDto">
+    <select id="selectSlice" resultType="ReplyListDto">
         <![CDATA[
         SELECT REPLY_ID, CONTENT, BOARD_ID, USER_ID, CREATED_DATE, MODIFIED_DATE, LOGIN_ID
         FROM(
@@ -39,10 +39,10 @@
         LOGIN_ID
         FROM TBL_REPLY R
         JOIN TBL_USER U
-        ON R.BOARD_ID = 1 AND R.USER_ID = U.USER_ID
+        ON R.BOARD_ID = #{boardId} AND R.USER_ID = U.USER_ID
         ORDER BY R.REPLY_ID DESC )
-        WHERE ROWNUM <= #{page} * #{amount} + 1
-        )WHERE RNUM > (#{page} - 1) * #{amount}
+        WHERE ROWNUM <= #{criteria.page} * #{criteria.amount} + 1
+        )WHERE RNUM > (#{criteria.page} - 1) * #{criteria.amount}
         ]]>
     </select>
 

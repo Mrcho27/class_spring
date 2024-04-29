@@ -1,5 +1,7 @@
 package com.example.finalapp.service.reply;
 
+import com.example.finalapp.dto.page.Criteria;
+import com.example.finalapp.dto.page.Slice;
 import com.example.finalapp.dto.reply.ReplyListDto;
 import com.example.finalapp.dto.reply.ReplyUpdateDto;
 import com.example.finalapp.dto.reply.ReplyWriteDto;
@@ -10,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -60,4 +63,39 @@ class ReplyServiceTest {
 
         verify(replyMapper, times(1)).deleteReply(any());
     }
+
+    @Test
+    void findSlice(){
+        // given
+        List<ReplyListDto> list = new ArrayList<>();
+        for (int i = 0; i < 4; i++){
+            list.add(new ReplyListDto());
+        }
+
+        doReturn(list).when(replyMapper).selectSlice(any(), any());
+
+        // when
+        Slice<ReplyListDto> slice = replyService.findSlice(new Criteria(1, 3), 1L);
+        // then
+        assertThat(slice)
+                .extracting("hasNext")
+                .isEqualTo(true);
+
+        assertThat(slice.getContentList())
+                .hasSize(3);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

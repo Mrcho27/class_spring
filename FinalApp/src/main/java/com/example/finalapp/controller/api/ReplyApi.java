@@ -1,5 +1,7 @@
 package com.example.finalapp.controller.api;
 
+import com.example.finalapp.dto.page.Criteria;
+import com.example.finalapp.dto.page.Slice;
 import com.example.finalapp.dto.reply.ReplyListDto;
 import com.example.finalapp.dto.reply.ReplyUpdateDto;
 import com.example.finalapp.dto.reply.ReplyWriteDto;
@@ -30,6 +32,13 @@ public class ReplyApi {
     @GetMapping("/v1/boards/{boardId}/replies")
     public List<ReplyListDto> replyList(@PathVariable("boardId") Long boardId){
         return replyService.findList(boardId);
+    }
+
+    @GetMapping("/v2/boards/{boardId}/replies")
+    public Slice<ReplyListDto> replySlice(@PathVariable("boardId") Long boardId
+                                            ,int page){
+        Slice<ReplyListDto> slice = replyService.findSlice(new Criteria(page, 5),boardId);
+        return slice;
     }
 
     @PatchMapping("/v1/replies/{replyId}")

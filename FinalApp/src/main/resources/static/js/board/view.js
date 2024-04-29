@@ -1,6 +1,9 @@
 // 모듈 가져오기
 import * as reply from "../module/reply.js";
 
+let page = 1;
+let hasNext = true;
+
 {   // 버튼 처리
     let $modifyBtn = document.querySelector('.btn-modify');
     let $removeBtn = document.querySelector('.btn-remove');
@@ -73,6 +76,7 @@ function displayImgAjax() {
         // console.log(e.target);
         let $target = e.target;
 
+
         if($target.classList.contains('reply-btns')){
             // closest('선택자') : 나의 상위 요소중에 찾기
             // querySelector('선택자') : 나의 하위 요소중에 찾기
@@ -96,7 +100,11 @@ function displayImgAjax() {
 
             let replyId = $target.closest('.reply').dataset.id;
             reply.remove(replyId, () => {
-                reply.getList(boardId, displayReply);
+                page = 1;
+                reply.getList2(boardId, page, function (data) {
+                    hasNext = data.hasNext;
+                    displayReply(data.contentList);
+                });
             });
 
 
@@ -107,7 +115,11 @@ function displayImgAjax() {
             let updateInfo = {replyId : replyId, content : content};
 
             reply.modify(updateInfo, () => {
-                reply.getList(boardId, displayReply);
+                page = 1;
+                reply.getList2(boardId, page, function (data) {
+                    hasNext = data.hasNext;
+                    displayReply(data.contentList);
+                });
             });
 
         }else{
@@ -128,6 +140,11 @@ function displayImgAjax() {
     $btnReply?.addEventListener('click', function () {
         let content = document.querySelector('#reply-content').value;
 
+        if(!content){
+            alert("댓글 내용은 필수 사항입니다.")
+            return;
+        }
+
         let replyInfo = {
             boardId : boardId,
             content : content
@@ -135,15 +152,43 @@ function displayImgAjax() {
 
         reply.register(replyInfo, () => {
             document.querySelector('#reply-content').value = '';
-            reply.getList(boardId, displayReply);
+            page = 1;
+            reply.getList2(boardId, page, function (data) {
+                hasNext = data.hasNext;
+                displayReply(data.contentList);
+            });
         });
     });
 
 
-    reply.getList(boardId, displayReply);
+    // reply.getList(boardId, displayReply);
+    reply.getList2(boardId, page, function (data){
+        hasNext = data.hasNext;
+        displayReply(data.contentList);
+    });
+
+    window.addEventListener('scroll', function (){
+        // console.dir(document.documentElement)
+        if(!hasNext) return;
+        // documentElement 객체에서 3개의 프로퍼티를 동시에 가져온다.
+        let {scrollTop, scrollHeight, clientHeight} = document.documentElement;
+
+        // console.log("scrollTop(스크롤 상단의 현재 위치) : ", scrollTop);
+        // console.log("scrollHeight(전체 문서의 높이) : ", scrollHeight);
+        // console.log("clientHeight(클라이언트[웹브라우저]의 화면 높이) : ", clientHeight);
+
+        if (clientHeight + scrollTop >= scrollHeight - 5) {
+            console.log("바닥!!!!!")
+
+            page++;
+
+            reply.getList2(boardId, page, function (data){
+                hasNext = data.hasNext;
+                appendReply(data.contentList);
+            });
+        }
+    });
 }
-
-
 
 
 function displayReply(replyList){
@@ -177,6 +222,59 @@ function displayReply(replyList){
     });
 
     $replyWrap.innerHTML = tags;
+}
+
+
+function appendReply(replyList){
+    let $replyWrap = document.querySelector('.reply-list-wrap');
+
+    let tags = '';
+
+    replyList.forEach(r => {
+        // console.log(reply)
+
+        tags += `
+            <div class="reply" data-id="${r.replyId}">
+                <div class="reply-box">
+                    <div class="reply-box__writer">${r.loginId}</div>
+                    <div class="reply-box__content">${r.content}</div>
+                </div>
+                
+                <div class="reply-time">
+                    ${reply.timeForToday(r.modifiedDate)}
+                </div>
+                
+                <div class="reply-btn-box">
+                    <span class="reply-btns"></span>
+                    <div class="reply-btns__box none">
+                        <div class="reply-remove-btn">삭제</div>
+                        <div class="reply-modify-btn">수정</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    // innerHTML은 기존의 자식요소드를 전부 덮어 씌우기때문에 새로운 값을 누적하지 않는다.
+    // $replyWrap.innerHTML = tags;
+
+    // 새로운 요소를 누적하기 위해서는 insertAdjacentHTML() 메서드를 이용해야한다.
+    // insertAdjacentHTML(position, html)
+    // position의 종류는 4가지가 있다.
+    // 1. beforebegin
+    // 2. afterbegin
+    // 3. beforeend
+    // 4. afterend
+
+    //      [beforebegin]
+    // <div class="reply-wrap">
+    //      [afterbegin]
+    //  <div class="child"></div>
+    //  <div class="child"></div>
+    //      [beforeend]
+    // </div>
+    //      [afterend]
+    $replyWrap.insertAdjacentHTML("beforeend", tags);
 }
 
 
